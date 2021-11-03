@@ -1,0 +1,34 @@
+type productReview {
+  _id: ID!
+  productId: ID!
+  createdBy: createdByUserinfo!
+  review: String!
+  score: Float!
+  updatedAt:DateTime!
+}
+type createdByUserinfo {
+  name: String!
+  image: String
+}
+input productReviewInput {
+  accountId: ID!
+  reviewId: ID
+  productId: ID!
+  review: String!
+  score: Float!
+}
+extend type Mutation {
+  createOrUpdateProductReview(input: productReviewInput): productReview
+}
+extend type Query {
+  productReviews(
+    productId: ID!
+    after: ConnectionCursor
+    before: ConnectionCursor
+    first: ConnectionLimitInt
+    last: ConnectionLimitInt
+    offset: Int
+    sortOrder: SortOrder = desc
+    sortBy: ProductSortByField = createdAt
+  ): [productReview]
+}
